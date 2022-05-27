@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>
+        OT Lab 4 - Malware Analysis - HackMD
+    </title>
+    <link rel="icon" type="image/png" href="https://hackmd.io/favicon.png">
+    <link rel="apple-touch-icon" href="https://hackmd.io/apple-touch-icon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" integrity="sha256-3iu9jgsy9TpTwXKb7bNQzqWekRX7pPK+2OLj3R922fo=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css" integrity="sha256-QiWfLIsCT02Sdwkogf6YMiQlj4NE84MKkzEMkZnMGdg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css" integrity="sha256-vtR0hSWRc3Tb26iuN2oZHt3KRUomwTufNIf5/4oeCyg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@hackmd/emojify.js@2.1.0/dist/css/basic/emojify.min.css" integrity="sha256-UOrvMOsSDSrW6szVLe8ZDZezBxh5IoIfgTwdNDgTjiU=" crossorigin="anonymous" />
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i|Source+Code+Pro:300,400,500|Source+Sans+Pro:300,300i,400,400i,600,600i|Source+Serif+Pro&subset=latin-ext);.hljs{display:block;background:#fff;padding:.5em;color:#333;overflow-x:auto}.hljs-comment,.hljs-meta{color:#969896}.hljs-emphasis,.hljs-quote,.hljs-string,.hljs-strong,.hljs-template-variable,.hljs-variable{color:#df5000}.hljs-keyword,.hljs-selector-tag,.hljs-type{color:#a71d5d}.hljs-attribute,.hljs-bullet,.hljs-literal,.hljs-number,.hljs-symbol{color:#0086b3}.hljs-built_in,.hljs-builtin-name{color:#005cc5}.hljs-name,.hljs-section{color:#63a35c}.hljs-tag{color:#333}.hljs-attr,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-selector-pseudo,.hljs-title{color:#795da3}.hljs-addition{color:#55a532;background-color:#eaffea}.hljs-deletion{color:#bd2c00;background-color:#ffecec}.hljs-link{text-decoration:underline}.markdown-body{font-size:16px;line-height:1.5;word-wrap:break-word}.markdown-body:after,.markdown-body:before{display:table;content:""}.markdown-body:after{clear:both}.markdown-body>:first-child{margin-top:0!important}.markdown-body>:last-child{margin-bottom:0!important}.markdown-body a:not([href]){color:inherit;text-decoration:none}.markdown-body .absent{color:#c00}.markdown-body .anchor{float:left;padding-right:4px;margin-left:-20px;line-height:1}.markdown-body .anchor:focus{outline:none}.markdown-body blockquote,.markdown-body dl,.markdown-body ol,.markdown-body p,.markdown-body pre,.markdown-body table,.markdown-body ul{margin-top:0;margin-bottom:16px}.markdown-body hr{height:.25em;padding:0;margin:24px 0;background-color:#e7e7e7;border:0}.markdown-body blockquote{font-size:16px;padding:0 1em;color:#777;border-left:.25em solid #ddd}.markdown-body blockquote>:first-child{margin-top:0}.markdown-body blockquote>:last-child{margin-bottom:0}.markdown-body kbd,.popover kbd{display:inline-block;padding:3px 5px;font-size:11px;line-height:10px;color:#555;vertical-align:middle;background-color:#fcfcfc;border:1px solid #ccc;border-bottom-color:#bbb;border-radius:3px;box-shadow:inset 0 -1px 0 #bbb}.markdown-body .loweralpha{list-style-type:lower-alpha}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{margin-top:24px;margin-bottom:16px;font-weight:600;line-height:1.25}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{color:#000;vertical-align:middle;visibility:hidden}.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.markdown-body h1 code,.markdown-body h1 tt,.markdown-body h2 code,.markdown-body h2 tt,.markdown-body h3 code,.markdown-body h3 tt,.markdown-body h4 code,.markdown-body h4 tt,.markdown-body h5 code,.markdown-body h5 tt,.markdown-body h6 code,.markdown-body h6 tt{font-size:inherit}.markdown-body h1{font-size:2em}.markdown-body h1,.markdown-body h2{padding-bottom:.3em;border-bottom:1px solid #eee}.markdown-body h2{font-size:1.5em}.markdown-body h3{font-size:1.25em}.markdown-body h4{font-size:1em}.markdown-body h5{font-size:.875em}.markdown-body h6{font-size:.85em;color:#777}.markdown-body ol,.markdown-body ul{padding-left:2em}.markdown-body ol.no-list,.markdown-body ul.no-list{padding:0;list-style-type:none}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-top:0;margin-bottom:0}.markdown-body li>p{margin-top:16px}.markdown-body li+li{padding-top:.25em}.markdown-body dl{padding:0}.markdown-body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}.markdown-body dl dd{padding:0 16px;margin-bottom:16px}.markdown-body table{display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}.markdown-body table th{font-weight:700}.markdown-body table td,.markdown-body table th{padding:6px 13px;border:1px solid #ddd}.markdown-body table tr{background-color:#fff;border-top:1px solid #ccc}.markdown-body table tr:nth-child(2n){background-color:#f8f8f8}.markdown-body img{max-width:100%;box-sizing:content-box;background-color:#fff}.markdown-body img[align=right]{padding-left:20px}.markdown-body img[align=left]{padding-right:20px}.markdown-body .emoji{max-width:none;vertical-align:text-top;background-color:transparent}.markdown-body span.frame{display:block;overflow:hidden}.markdown-body span.frame>span{display:block;float:left;width:auto;padding:7px;margin:13px 0 0;overflow:hidden;border:1px solid #ddd}.markdown-body span.frame span img{display:block;float:left}.markdown-body span.frame span span{display:block;padding:5px 0 0;clear:both;color:#333}.markdown-body span.align-center{display:block;overflow:hidden;clear:both}.markdown-body span.align-center>span{display:block;margin:13px auto 0;overflow:hidden;text-align:center}.markdown-body span.align-center span img{margin:0 auto;text-align:center}.markdown-body span.align-right{display:block;overflow:hidden;clear:both}.markdown-body span.align-right>span{display:block;margin:13px 0 0;overflow:hidden;text-align:right}.markdown-body span.align-right span img{margin:0;text-align:right}.markdown-body span.float-left{display:block;float:left;margin-right:13px;overflow:hidden}.markdown-body span.float-left span{margin:13px 0 0}.markdown-body span.float-right{display:block;float:right;margin-left:13px;overflow:hidden}.markdown-body span.float-right>span{display:block;margin:13px auto 0;overflow:hidden;text-align:right}.markdown-body code,.markdown-body tt{padding:0;padding-top:.2em;padding-bottom:.2em;margin:0;font-size:85%;background-color:rgba(0,0,0,.04);border-radius:3px}.markdown-body code:after,.markdown-body code:before,.markdown-body tt:after,.markdown-body tt:before{letter-spacing:-.2em;content:"\00a0"}.markdown-body code br,.markdown-body tt br{display:none}.markdown-body del code{text-decoration:inherit}.markdown-body pre{word-wrap:normal}.markdown-body pre>code{padding:0;margin:0;font-size:100%;word-break:normal;white-space:pre;background:transparent;border:0}.markdown-body .highlight{margin-bottom:16px}.markdown-body .highlight pre{margin-bottom:0;word-break:normal}.markdown-body .highlight pre,.markdown-body pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f7f7f7;border-radius:3px}.markdown-body pre code,.markdown-body pre tt{display:inline;max-width:auto;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}.markdown-body pre code:after,.markdown-body pre code:before,.markdown-body pre tt:after,.markdown-body pre tt:before{content:normal}.markdown-body .csv-data td,.markdown-body .csv-data th{padding:5px;overflow:hidden;font-size:12px;line-height:1;text-align:left;white-space:nowrap}.markdown-body .csv-data .blob-line-num{padding:10px 8px 9px;text-align:right;background:#fff;border:0}.markdown-body .csv-data tr{border-top:0}.markdown-body .csv-data th{font-weight:700;background:#f8f8f8;border-top:0}.news .alert .markdown-body blockquote{padding:0 0 0 40px;border:0 none}.activity-tab .news .alert .commits,.activity-tab .news .markdown-body blockquote{padding-left:0}.task-list-item{list-style-type:none}.task-list-item label{font-weight:400}.task-list-item.enabled label{cursor:pointer}.task-list-item+.task-list-item{margin-top:3px}.task-list-item-checkbox{float:left;margin:.31em 0 .2em -1.3em!important;vertical-align:middle;cursor:default!important}.markdown-body{padding-top:40px;padding-bottom:40px;max-width:758px;overflow:visible!important;position:relative}.markdown-body .emoji{vertical-align:top}.markdown-body pre{border:inherit!important}.markdown-body code{color:inherit!important}.markdown-body pre code .wrapper{display:-moz-inline-flex;display:-ms-inline-flex;display:-o-inline-flex;display:inline-flex}.markdown-body pre code .gutter{float:left;overflow:hidden;-webkit-user-select:none;user-select:none}.markdown-body pre code .gutter.linenumber{text-align:right;position:relative;display:inline-block;cursor:default;z-index:4;padding:0 8px 0 0;min-width:20px;box-sizing:content-box;color:#afafaf!important;border-right:3px solid #6ce26c!important}.markdown-body pre code .gutter.linenumber>span:before{content:attr(data-linenumber)}.markdown-body pre code .code{float:left;margin:0 0 0 16px}.markdown-body .gist .line-numbers{border-left:none;border-top:none;border-bottom:none}.markdown-body .gist .line-data{border:none}.markdown-body .gist table{border-spacing:0;border-collapse:inherit!important}.markdown-body code[data-gist-id]{background:none;padding:0}.markdown-body code[data-gist-id]:after,.markdown-body code[data-gist-id]:before{content:""}.markdown-body code[data-gist-id] .blob-num{border:unset}.markdown-body code[data-gist-id] table{overflow:unset;margin-bottom:unset}.markdown-body code[data-gist-id] table tr{background:unset}.markdown-body[dir=rtl] pre{direction:ltr}.markdown-body[dir=rtl] code{direction:ltr;unicode-bidi:embed}.markdown-body .alert>p:last-child{margin-bottom:0}.markdown-body pre.abc,.markdown-body pre.flow-chart,.markdown-body pre.graphviz,.markdown-body pre.mermaid,.markdown-body pre.sequence-diagram,.markdown-body pre.vega{text-align:center;background-color:inherit;border-radius:0;white-space:inherit;overflow:visible}.markdown-body pre.abc>code,.markdown-body pre.flow-chart>code,.markdown-body pre.graphviz>code,.markdown-body pre.mermaid>code,.markdown-body pre.sequence-diagram>code,.markdown-body pre.vega>code{text-align:left}.markdown-body pre.abc>svg,.markdown-body pre.flow-chart>svg,.markdown-body pre.graphviz>svg,.markdown-body pre.mermaid>svg,.markdown-body pre.sequence-diagram>svg,.markdown-body pre.vega>svg{max-width:100%;height:100%}.markdown-body pre>code.wrap{white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;word-wrap:break-word}.markdown-body .alert>p:last-child,.markdown-body .alert>ul:last-child{margin-bottom:0}.markdown-body summary{display:list-item}.markdown-body summary:focus{outline:none}.markdown-body details summary{cursor:pointer}.markdown-body details:not([open])>:not(summary){display:none}.markdown-body figure{margin:1em 40px}.markdown-body .mark,.markdown-body mark{background-color:#fff1a7}.vimeo,.youtube{cursor:pointer;display:table;text-align:center;background-position:50%;background-repeat:no-repeat;background-size:contain;background-color:#000;overflow:hidden}.vimeo,.youtube{position:relative;width:100%}.youtube{padding-bottom:56.25%}.vimeo img{width:100%;object-fit:contain;z-index:0}.youtube img{object-fit:cover;z-index:0}.vimeo iframe,.youtube iframe,.youtube img{width:100%;height:100%;position:absolute;top:0;left:0}.vimeo iframe,.youtube iframe{vertical-align:middle;z-index:1}.vimeo .icon,.youtube .icon{position:absolute;height:auto;width:auto;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;opacity:.3;transition:opacity .2s;z-index:0}.vimeo:hover .icon,.youtube:hover .icon{opacity:.6;transition:opacity .2s}.slideshare .inner,.speakerdeck .inner{position:relative;width:100%}.slideshare .inner iframe,.speakerdeck .inner iframe{position:absolute;top:0;bottom:0;left:0;right:0;width:100%;height:100%}.figma{display:table;position:relative;width:100%;padding-bottom:56.25%}.figma iframe{position:absolute;top:0;bottom:0;left:0;right:0;width:100%;height:100%;border:1px solid #eee}.markmap-container{height:300px}.markmap-container>svg{width:100%;height:100%}.MJX_Assistive_MathML{display:none}#MathJax_Message{z-index:1000!important}.ui-infobar{position:relative;z-index:2;max-width:760px;margin:25px auto -25px;color:#777}.toc .invisable-node{list-style-type:none}.ui-toc{position:fixed;bottom:20px;z-index:998}.ui-toc.both-mode{margin-left:8px}.ui-toc.both-mode .ui-toc-label{height:40px;padding:10px 4px;border-top-left-radius:0;border-bottom-left-radius:0}.ui-toc-label{background-color:#e6e6e6;border:none;color:#868686;transition:opacity .2s}.ui-toc .open .ui-toc-label{opacity:1;color:#fff;transition:opacity .2s}.ui-toc-label:focus{opacity:.3;background-color:#ccc;color:#000}.ui-toc-label:hover{opacity:1;background-color:#ccc;transition:opacity .2s}.ui-toc-dropdown{margin-top:20px;margin-bottom:20px;padding-left:10px;padding-right:10px;max-width:45vw;width:25vw;max-height:70vh;overflow:auto;text-align:inherit}.ui-toc-dropdown>.toc{max-height:calc(70vh - 100px);overflow:auto}.ui-toc-dropdown[dir=rtl] .nav{padding-right:0;letter-spacing:.0029em}.ui-toc-dropdown a{overflow:hidden;text-overflow:ellipsis;white-space:pre}.ui-toc-dropdown .nav>li>a{display:block;padding:4px 20px;font-size:13px;font-weight:500;color:#767676}.ui-toc-dropdown .nav>li:first-child:last-child>ul,.ui-toc-dropdown .toc.expand ul{display:block}.ui-toc-dropdown .nav>li>a:focus,.ui-toc-dropdown .nav>li>a:hover{padding-left:19px;color:#000;text-decoration:none;background-color:transparent;border-left:1px solid #000}.ui-toc-dropdown[dir=rtl] .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav>li>a:hover{padding-right:19px;border-left:none;border-right:1px solid #000}.ui-toc-dropdown .nav>.active:focus>a,.ui-toc-dropdown .nav>.active:hover>a,.ui-toc-dropdown .nav>.active>a{padding-left:18px;font-weight:700;color:#000;background-color:transparent;border-left:2px solid #000}.ui-toc-dropdown[dir=rtl] .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav>.active>a{padding-right:18px;border-left:none;border-right:2px solid #000}.ui-toc-dropdown .nav .nav{display:none;padding-bottom:10px}.ui-toc-dropdown .nav>.active>ul{display:block}.ui-toc-dropdown .nav .nav>li>a{padding-top:1px;padding-bottom:1px;padding-left:30px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a{padding-right:30px}.ui-toc-dropdown .nav .nav>li>ul>li>a{padding-top:1px;padding-bottom:1px;padding-left:40px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a{padding-right:40px}.ui-toc-dropdown .nav .nav>li>a:focus,.ui-toc-dropdown .nav .nav>li>a:hover{padding-left:29px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:hover{padding-right:29px}.ui-toc-dropdown .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown .nav .nav>li>ul>li>a:hover{padding-left:39px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:hover{padding-right:39px}.ui-toc-dropdown .nav .nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>a{padding-left:28px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>a{padding-right:28px}.ui-toc-dropdown .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active>a{padding-left:38px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active>a{padding-right:38px}.markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif}html[lang^=ja] .markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}html[lang=zh-tw] .markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html[lang=zh-cn] .markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}html .markdown-body[lang^=ja]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}html .markdown-body[lang=zh-tw]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html .markdown-body[lang=zh-cn]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}html[lang^=ja] .ui-toc-dropdown{font-family:Source Sans Pro,Helvetica,Arial,Meiryo UI,MS PGothic,ＭＳ\ Ｐゴシック,sans-serif}html[lang=zh-tw] .ui-toc-dropdown{font-family:Source Sans Pro,Helvetica,Arial,Microsoft JhengHei UI,微軟正黑UI,sans-serif}html[lang=zh-cn] .ui-toc-dropdown{font-family:Source Sans Pro,Helvetica,Arial,Microsoft YaHei UI,微软雅黑UI,sans-serif}html .ui-toc-dropdown[lang^=ja]{font-family:Source Sans Pro,Helvetica,Arial,Meiryo UI,MS PGothic,ＭＳ\ Ｐゴシック,sans-serif}html .ui-toc-dropdown[lang=zh-tw]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft JhengHei UI,微軟正黑UI,sans-serif}html .ui-toc-dropdown[lang=zh-cn]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft YaHei UI,微软雅黑UI,sans-serif}.ui-affix-toc{position:fixed;top:0;max-width:15vw;max-height:70vh;overflow:auto}.back-to-top,.expand-toggle,.go-to-bottom{display:block;padding:4px 10px;margin-top:10px;margin-left:10px;font-size:12px;font-weight:500;color:#999}.back-to-top:focus,.back-to-top:hover,.expand-toggle:focus,.expand-toggle:hover,.go-to-bottom:focus,.go-to-bottom:hover{color:#563d7c;text-decoration:none}.back-to-top,.go-to-bottom{margin-top:0}.ui-user-icon{width:20px;height:20px;display:block;border-radius:50%;margin-top:2px;margin-bottom:2px;margin-right:5px;background-position:50%;background-repeat:no-repeat;background-size:cover}.ui-user-icon.small{width:18px;height:18px;display:inline-block;vertical-align:middle;margin:0 0 .2em}.ui-infobar>small>span{line-height:22px}.ui-infobar>small .dropdown{display:inline-block}.ui-infobar>small .dropdown a:focus,.ui-infobar>small .dropdown a:hover{text-decoration:none}.ui-more-info{color:#888;cursor:pointer;vertical-align:middle}.ui-more-info .fa{font-size:16px}.ui-connectedGithub,.ui-published-note{color:#888}.ui-connectedGithub{line-height:23px;white-space:nowrap}.ui-connectedGithub a.file-path{color:#888;text-decoration:none;padding-left:22px}.ui-connectedGithub a.file-path:active,.ui-connectedGithub a.file-path:hover{color:#888;text-decoration:underline}.ui-connectedGithub .fa{font-size:20px}.ui-published-note .fa{font-size:20px;vertical-align:top}.unselectable{-webkit-user-select:none;-o-user-select:none;user-select:none}.selectable{-webkit-user-select:text;-o-user-select:text;user-select:text}@media print{blockquote,div,img,pre,table{page-break-inside:avoid!important}a[href]:after{font-size:12px!important}}.markdown-body.slides{position:relative;z-index:1;color:#222}.markdown-body.slides:before{content:"";display:block;position:absolute;top:0;left:0;right:0;bottom:0;z-index:-1;background-color:currentColor;box-shadow:0 0 0 50vw}.markdown-body.slides section[data-markdown]{position:relative;margin-bottom:1.5em;background-color:#fff;text-align:center}.markdown-body.slides section[data-markdown] code{text-align:left}.markdown-body.slides section[data-markdown]:before{content:"";display:block;padding-bottom:56.23%}.markdown-body.slides section[data-markdown]>div:first-child{position:absolute;top:50%;left:1em;right:1em;transform:translateY(-50%);max-height:100%;overflow:hidden}.markdown-body.slides section[data-markdown]>ul{display:inline-block}.markdown-body.slides>section>section+section:after{content:"";position:absolute;top:-1.5em;right:1em;height:1.5em;border:3px solid #777}.site-ui-font{font-family:Source Sans Pro,Helvetica,Arial,sans-serif}html[lang^=ja] .site-ui-font{font-family:Source Sans Pro,Helvetica,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}html[lang=zh-tw] .site-ui-font{font-family:Source Sans Pro,Helvetica,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html[lang=zh-cn] .site-ui-font{font-family:Source Sans Pro,Helvetica,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}body{font-smoothing:subpixel-antialiased!important;-webkit-font-smoothing:subpixel-antialiased!important;-moz-osx-font-smoothing:auto!important;text-shadow:0 0 1em transparent,1px 1px 1.2px rgba(0,0,0,.004);-webkit-overflow-scrolling:touch;letter-spacing:.025em;font-family:Source Sans Pro,Helvetica,Arial,sans-serif}html[lang^=ja] body{font-family:Source Sans Pro,Helvetica,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}html[lang=zh-tw] body{font-family:Source Sans Pro,Helvetica,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html[lang=zh-cn] body{font-family:Source Sans Pro,Helvetica,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}abbr[title]{border-bottom:none;text-decoration:underline;-webkit-text-decoration:underline dotted;text-decoration:underline dotted}abbr[data-original-title],abbr[title]{cursor:help}body.modal-open{overflow-y:auto;padding-right:0!important}
+    </style>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js" integrity="sha256-g6iAfvZp+nDQ2TdTR/VVKJf3bGro4ub5fvWSWVRi2NE=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js" integrity="sha256-8E4Is26QH0bD52WoQpcB+R/tcWQtpzlCojrybUd7Mxo=" crossorigin="anonymous"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div id="doc" class="markdown-body container-fluid comment-enabled" data-hard-breaks="true"><center>
+<h1 id="OT-Lab-4---Malware-Analysis" data-id="OT-Lab-4---Malware-Analysis"><a class="anchor hidden-xs" href="#OT-Lab-4---Malware-Analysis" title="OT-Lab-4---Malware-Analysis"><span class="octicon octicon-link"></span></a><span>OT Lab 4 - Malware Analysis</span></h1>
+<p><strong><span>Name: Vladimir Shelkovnikov</span></strong><br>
+<span>—</span></p>
+</center><h2 id="Task-1---Set-up-your-environment" data-id="Task-1---Set-up-your-environment"><a class="anchor hidden-xs" href="#Task-1---Set-up-your-environment" title="Task-1---Set-up-your-environment"><span class="octicon octicon-link"></span></a><span>Task 1 - Set up your environment</span></h2><div class="alert alert-success">
+<ol>
+<li><span>Prepare and secure malware analysis environment for example FLARE VM. Make sure that VM uses a HOST ONLY network adapter.</span></li>
+<li><span>Use any virtualization environment, better to use the latest version (check repo and official website).</span></li>
+<li><span>Or you can create a Virtual Machine and set it up as a malware analysis environment.</span></li>
+</ol>
+</div><p><span>I have installed a Windows 10 VM. I downloaded the FLARE VM repository from GitHub. I have enabled an unrestricted execution policy for PowerShell using the </span><code>Set-ExecutionPolicy unrestricted</code><span> command. Then I executed the installation script </span><strong><span>install.ps1</span></strong><span>. The installation is fully automated, so after a while, it was completed, and I got the necessary environment (Figure 1).</span></p><center>
+<p><img src="https://i.imgur.com/9NLMC7A.png" alt="" loading="lazy"><br>
+<span>Figure 1 - Flare VM</span></p>
+</center><h2 id="Task-2---Let’s-get-some-malware" data-id="Task-2---Let’s-get-some-malware"><a class="anchor hidden-xs" href="#Task-2---Let’s-get-some-malware" title="Task-2---Let’s-get-some-malware"><span class="octicon octicon-link"></span></a><span>Task 2 - Let’s get some malware</span></h2><div class="alert alert-success">
+<ol>
+<li><span>Download some malware/ransomware from the Internet (for example, TheZoo repo).</span></li>
+</ol>
+<blockquote>
+<p><span>Please be careful when you run them, THESE ARE REAL MALWARE.</span></p>
+</blockquote>
+<ol start="2">
+<li><span>Select at least two malware that you want to analyze in a malware analysis environment.</span></li>
+</ol>
+</div><p><span>I decided to go with ransomware - WannaCry.</span></p><p><span>WannaCry is one of the first examples of a ransomware attack that began on May 12, 2017, and affected more than 300 organizations around the world. Now we can call it a classic example of a ransomware program. + it has the function of a worm to spread over the network.</span></p><h2 id="Task-3---Static-Analysis" data-id="Task-3---Static-Analysis"><a class="anchor hidden-xs" href="#Task-3---Static-Analysis" title="Task-3---Static-Analysis"><span class="octicon octicon-link"></span></a><span>Task 3 - Static Analysis</span></h2><div class="alert alert-success">
+<ol>
+<li><span>Use any tool for static analysis of your selected malware (for example, Ghidra, IDA, Binary Ninja, Hopper, Radare2, …).</span></li>
+</ol>
+</div><h3 id="WannaCry" data-id="WannaCry"><a class="anchor hidden-xs" href="#WannaCry" title="WannaCry"><span class="octicon octicon-link"></span></a><span>WannaCry</span></h3><p><span>Let’s start with a static analysis for WannaCry. I started by analyzing this with PE-bear. It showed that the malware uses 4 libraries - KERNEL32, USER32, ADVAPI32, and MSVCRT.</span></p><div class="alert alert-info">
+<p><strong><span>KERNEL32</span></strong><span> - provides applications with many basic Win32 APIs, such as memory management, I/O operations, process and thread creation, and synchronization functions.</span><br>
+<strong><span>USER32</span></strong><span> - window and user interface management subsystem.</span><br>
+<strong><span>ADVAPI32</span></strong><span> - provides access to advanced functionality that comes in addition to the kernel. It is responsible for things like the Windows registry, restarting and shutting down the system, starting/stopping and creating Windows services, managing user accounts, and encryption.</span><br>
+<strong><span>MSVCRT</span></strong><span> - C standard library for the Visual C++ (MSVC) compiler.</span></p>
+</div><p><span>Also, it contains big resources with type XIA. Let’s look at the list of functions (Figure 2).</span></p><center>
+<p><img src="https://i.imgur.com/HBoCgsz.png" alt="" loading="lazy"><br>
+<span>Figure 2 - List of functions for WannaCry</span></p>
+</center><p><span>There are unnamed functions that are also divided into small parts. So I am starting to analyze the entry function - the first one that will be called after the exe is launched (Figure 3).</span></p><center>
+<p><img src="https://i.imgur.com/Bq4L6sf.png" alt="" loading="lazy"><br>
+<span>Figure 3 - Part of the entry function</span></p>
+</center><p><span>It contains a prologue, buffer overflow protection, initialization and an epilogue. This part is automatically generated by the compiler, so the actual main function is FUN_00408140 (Figure 4).</span></p><center>
+<p><img src="https://i.imgur.com/WM3JTSP.png" alt="" loading="lazy"><br>
+<span>Figure 4 - main function</span></p>
+</center><p><span>One of the variables here is the URL </span><strong><span>http://www.iuqerfsodp9ifjaposdfj_004313d0</span></strong><span>.</span><br>
+<span>The next part is for the loop created by the </span><strong><span>MOVSB.REP and MOVSB</span></strong><span> instructions, which copies the URL to the buffer (</span><strong><span>local_50</span></strong><span>). Then it initializes a set of variables that are equal to 0.</span></p><p><strong><span>InternetOpenA</span></strong><span> is the first WinINet function called by an application. It is used by </span><strong><span>InternetOpenUrlA</span></strong><span> to access the URL from buffer. If it successed it will close the handle and return 0, otherwise it will call </span><strong><span>FUN_00408090()</span></strong><span> - main malware function. This is how the wannacry attack was stopped - when the domain was registered, the malicious payload was not executed.</span></p><p><span>Figure 5 shows the beginning of </span><strong><span>FUN_00408090()</span></strong></p><center>
+<p><img src="https://i.imgur.com/G9duTfE.png" alt="" loading="lazy"><br>
+<span>Figure 5 - Main malware function. Part 1</span></p>
+</center><p><span>Here it tries to get the full path to the executable file and checks the arguments, if there is less than one, he will call FUN_00407f20. This function contains the other two, as shown in Figure 6.</span></p><center>
+<p><img src="https://i.imgur.com/VuGgTao.png" alt="" loading="lazy"><br>
+<span>Figure 6 - FUN_00407f20</span></p>
+</center><p><span>Figure 7 shows the first function.</span></p><center>
+<p><img src="https://i.imgur.com/0ushW35.png" alt="" loading="lazy"><br>
+<span>Figure 7 - Create and start mssecsvc2.0 service</span></p>
+</center><p><span>First, it uses the path to the executable file from Figure 5 to construct a string like </span><code>Path-to-executable -m security</code><span>. This path is used to create a new service called mssecsvc2.0 (Microsoft Security Center (2.0)), which will have full access (DesiredAccess==0xf01ff(SERVICE_ALL_ACCESS)) and will run in its own process (0x10) and will start automatically (2). Then it will start the service.</span></p><p><span>Now let’s move on to the second one (Figures 8, 9, 10, 11).</span></p><center>
+<p><img src="https://i.imgur.com/eyrdcXJ.png" alt="" loading="lazy"><br>
+<span>Figure 8 - FUN_00407ce0. Load kernel32.dll</span></p>
+</center><p><span>It starts with the import KERNEL32.DLL. It took 4 functions from it - CreateProcess, CreateFile, WriteFile and CloseHandle.</span></p><center>
+<p><img src="https://i.imgur.com/w85fIjj.png" alt="" loading="lazy"><br>
+<span>Figure 9 - FUN_00407ce0. Resource 1831</span></p>
+</center><p><span>If successful, it will try to find, load and lock the resource 0x727 (1831), as well as get its size (Figure 9).</span></p><center>
+<p><img src="https://i.imgur.com/cAMWvUi.png" alt="" loading="lazy"><br>
+<span>Figure 10 - FUN_00407ce0. Operations with tasksche.exe</span></p>
+</center><p><span>Here it moved </span><strong><span>C:\WINDOWS\tasksche.exe</span></strong><span> to the </span><strong><span>C:\qeriuwjhrf\WINDOWS</span></strong><span>. And then it will create a new </span><strong><span>tasksche.exe</span></strong><span> with content from resource </span><strong><span>1831</span></strong><span>.</span></p><center>
+<p><img src="https://i.imgur.com/ZQMJs3c.png" alt="" loading="lazy"><br>
+<span>Figure 11 - FUN_00407ce0. Create process</span></p>
+</center><p><span>After that, it creates a new process with the created file and the </span><strong><span>/i</span></strong><span> argument. Thus, this function will overwrite the </span><strong><span>tasksche</span></strong><span>.exe with malicious content from resource 1831. Now let’s go back to the main function of malware (Figure 12).</span></p><center>
+<p><img src="https://i.imgur.com/wYUxEQc.png" alt="" loading="lazy"><br>
+<span>Figure 12 - Decompiled malware main function</span></p>
+</center><p><span>So if everything is OK with the arguments, it will just start the mssecsvc2.0 service using the LAB_00408000 function (Figure 13).</span></p><center>
+<p><img src="https://i.imgur.com/pC6TuDe.png" alt="" loading="lazy"><br>
+<span>Figure 13 - LAB_00408000</span></p>
+</center><p><span>RegisterServiceCtrlHandler function will register </span><strong><span>FUN_00407f30</span></strong><span> (Figure 14) as a control handler function for </span><strong><span>mssecsvc2.0</span></strong><span>. It just renders the status of the service.</span></p><center>
+<p><img src="https://i.imgur.com/GQKay8Z.png" alt="" loading="lazy"><br>
+<span>Figure 14 - FUN_00407f30. Set status</span></p>
+</center><p><span>Then it will set the status to stop (0x20) and call </span><strong><span>FUN_00407bd0</span></strong><span> (Figure 15) and then sleep for 864000 seconds.</span></p><center>
+<p><img src="https://i.imgur.com/zR4h8XP.png" alt="" loading="lazy"><br>
+<span>Figure 15 - FUN_00407bd0</span></p>
+</center><p><span>This function creates two threads. The first one gets the IP addresses of the local network interfaces by calling the </span><strong><span>GetAdaptersInfo</span></strong><span> function, and determines the subnets that exist in the network. After that, it tries to connect to all possible IP addresses in any available LAN on port 445 (SMB). It looks like it’s sending some packets via SMB, but these two streams contain too much code, so I’ll skip it for now.</span></p><p><span>Thus, this part does not contain real malware. To get it, I need to extract a resource named 1831. I used wrestool to see the resources inside wannacry.exe . There are only two of them:</span></p><pre><code class="wrestool hljs"><span class="hljs-attribute">--type</span>=<span class="hljs-string">'R'</span> <span class="hljs-attribute">--name</span>=1831 <span class="hljs-attribute">--language</span>=1033 [<span class="hljs-attribute">offset</span>=0x3100a4 <span class="hljs-attribute">size</span>=3514368]
+<span class="hljs-attribute">--type</span>=16 <span class="hljs-attribute">--name</span>=1 <span class="hljs-attribute">--language</span>=1033 [<span class="hljs-attribute">type</span>=version <span class="hljs-attribute">offset</span>=0x66a0a4 <span class="hljs-attribute">size</span>=944]
+</code></pre><p><span>I extracted it as 1831. But first, let’s check the first part of the malware using the sandbox (Figure 16).</span></p><center>
+<p><img src="https://i.imgur.com/gc98XTR.png" alt="" loading="lazy"><br>
+<span>Figure 16 - Sandbox</span></p>
+</center><p><span>It contains the same information. Also, I missed part of the sleep in FUN_00407fa0. So it will wait for a while before it starts.</span></p><p><span>Let’s move on to the extracted resource. It also does not contain much information about the list of functions (Figure 17).</span></p><center>
+<p><img src="https://i.imgur.com/2G6gxqw.png" alt="" loading="lazy"><br>
+<span>Figure 17 - List of functions</span></p>
+</center><p><span>The entry contains the same structure, the main function is FUN_00401fe7 (Figure 18).</span></p><center>
+<p><img src="https://i.imgur.com/hCNozUk.png" alt="" loading="lazy"><br>
+<span>Figure 18 - main</span></p>
+</center><p><span>It starts by calling memset and getting the path to the executable file. Then it calls FUN_00401225 (Figure 19).</span></p><center>
+<p><img src="https://i.imgur.com/p6Vjihm.png" alt="" loading="lazy"><br>
+<span>Figure 19 - FUN_00401225. Generating random string</span></p>
+</center><p><span>It also starts with memset and then gets the computer name. This name is used to generate a seed. Seed used in srand. It generates a random number, which is then converted to a string and used as an argument. So this function generates a </span><code>random</code><span> string.</span></p><p><span>Let’s go back to the main function. After a random string has been generated, it checks the argument - it should be </span><strong><span>/i</span></strong><span>. Then it calls FUN_00401b5f (Figure 20).</span></p><center>
+<p><img src="https://i.imgur.com/HcmyKHp.png" alt="" loading="lazy"><br>
+<span>Figure 20 - FUN_00401b5f</span></p>
+</center><p><span>It starts again with a memset call. It then runs multibytetowidechar, which puts the generated random string into a stack variable. It gets the Windows directory. Then it uses sprintf, but the string here is a bit broken. In fact, this is %s\Programdata (Figure 21).</span></p><center>
+<p><img src="https://i.imgur.com/isq3qhJ.png" alt="" loading="lazy"><br>
+<span>Figure 21 - %s\ProgrammData</span></p>
+</center><p><span>So this line actually creates a directory path using the value from</span><br>
+<span>GetWindowsDirectoryW. Then, if this directory does not exist, it calls FUN_00401af6 (Figure 22).</span></p><center>
+<p><img src="https://i.imgur.com/VXyCpXo.png" alt="" loading="lazy"><br>
+<span>Figure 22 - FUN_00401af6. Create directory and set as current</span></p>
+</center><p><span>This one creates the missing directory, sets it as the current one and sets it as a hidden and system directory. It can also put the directory name in the third argument if it has been used. Thus, the purpose of this function is to create a hidden system directory.</span></p><p><span>Let’s go back to Figure 20. It also tried to create directories </span><strong><span>%s\Intel and %s\generated random string</span></strong><span>.</span></p><p><span>Back to Figure 18. If the directory was created successfully, it copies itself to this directory as tasksche.exe. Then it calls FUN_00401f5d (Figure 23).</span></p><center>
+<p><img src="https://i.imgur.com/dllFqxA.png" alt="" loading="lazy"><br>
+<span>Figure 23 - FUN_00401f5d</span></p>
+</center><p><span>This one gets the full path to the created file and calls FUN_00401ce8 (Figure 24).</span></p><center>
+<p><img src="https://i.imgur.com/YJQ7Joq.png" alt="" loading="lazy"><br>
+<span>Figure 24 - FUN_00401ce8. Create service</span></p>
+</center><p><span>This function is similar to the last function of the first part of the malware. It uses the </span><strong><span>Service Connection Manager</span></strong><span> to create a service to run malware called as previously generated random string. If it already exists, it will just launch it.</span></p><p><span>Back to Figure 23. FUN_00401eff is acquire mutex (“Global\MsWinZonesCacheCounterMutexA”) to avoid running few instances of malware at the same time. FUN_00401064 runs the malware as a process. If this fails, it will return an error (status 1), otherwise 0.</span></p><p><span>Let’s go back to the main function (Figure 25). First, it sets this path as the current directory and runs the FUN_004010fd (Figure 26).</span></p><center>
+<p><img src="https://i.imgur.com/4DcTLVX.png" alt="" loading="lazy"><br>
+<span>Figure 25 - Back to main</span></p>
+<p><img src="https://i.imgur.com/PaBlUU3.png" alt="" loading="lazy"><br>
+<span>Figure 26 - FUN_004010fd. Working with registry</span></p>
+</center><p><span>It concatinate the string </span><strong><span>Software\WanaCrypt0r</span></strong><span>. Then there is a loop in which hkey is used (it can be HKEY_LOCAL_MACHINE or HKEY_CURRENT_USER) to create Registry Key with the </span><strong><span>Software\WanaCrypt0r</span></strong><span>. Then,if the first argument of the function is 0, it will save the registry value in the </span><strong><span>local_2e0</span></strong><span> variable and set the current directory to it.</span></p><p><span>If param_1 !== 0, it will create a new registry and store current directory as its value.</span></p><p><span>Thus, this function adds a new registry key with the value of the malware directory.</span></p><p><span>Back to Figure 22. The next function is FUN_00401dab (Figure 27).</span></p><center>
+<p><img src="https://i.imgur.com/TaKwV1n.png" alt="" loading="lazy"><br>
+<span>Figure 27 - FUN_00401dab</span></p>
+</center><p><span>I have already seen a similar function. The first thing it tries to do is find resource 0x80a (2058) - </span><code>--type='XIA' --name=2058 --language=1033 [offset=0x100f0 size=3446325]</code><span>. I extracted it using the command </span><code>wrestool -R -x --name=2058 1831 &gt; 2058</code><span>. It’s actually a Zip file - </span><code>2058: Zip archive data, at least v2.0 to extract</code><span>, but I need a password to open it. I found it in the code (Figure 28).</span></p><center>
+<p><img src="https://i.imgur.com/AhPIMOo.png" alt="" loading="lazy"><br>
+<span>Figure 28 - WNcry@2ol7</span></p>
+</center><p><span>The zip archive contains the following files:</span></p><pre><code>b.wnry:      data
+c.wnry:      data
+msg:         directory
+r.wnry:      ASCII text, with CRLF line terminators
+s.wnry:      Zip archive data, at least v1.0 to extract
+taskdl.exe:  PE32 executable (GUI) Intel 80386, for MS Windows
+taskse.exe:  PE32 executable (GUI) Intel 80386, for MS Windows
+t.wnry:      data
+u.wnry:      PE32 executable (GUI) Intel 80386, for MS Windows
+wininet.dll: PE32+ executable (DLL) (GUI) x86-64, for MS Windows
+</code></pre><div class="alert alert-info">
+<ul>
+<li><span>msg is a folder that contains a list of rich text format (RTF) files with the wnry extension. These files are the readme instructions used to show the  message to the victim in different languages, based on the information obtained from the system;</span></li>
+<li><span>b.wnry is an image file used for displaying instructions for the decryption of user files;</span></li>
+<li><span>c.wnry contains a list of Tor addresses with the .onion extension and a link to a zipped installation file of the Tor browser;</span></li>
+<li><span>r.wnry is a text file in English with additional decryption instructions to be used by the decryption component;</span></li>
+<li><span>s.wnry file is a ZIP archive  which contains the Tor software executable.</span></li>
+<li><span>t.wnry is an encrypted file with the WANACRY! encryption format. The file header starts with the WANACRY! string;</span></li>
+<li><span>taskdl.exe is a supporting tool for the deletion of files with the .WNCRY extension. By observing the properties of the file, the following masquerade description can be found: “SQL Client Configuration Utility”;</span></li>
+<li><span>taskse.exe is a supporting tool for malware execution on remote desktop protocol (RDP) sessions.</span></li>
+<li><span>u.wnry is an executable with the name of “@WanaDecryptor@.exe”, which represents the decryption component of WannaCry</span></li>
+</ul>
+</div><p><span>Now let’s go back to Figure 22. The FUN_00401e9e function will randomly select one of the lines 1</span><strong><span>3AM4VW2dhxYgXeQepoHkHSQuy6NgaEb_0040f488, 12t9YDPgwueZ9NyMgw519p7AA8isjr6S_0040f464 or 115p7UMMngoj1pMvkpHijcRdfJNXj6Lr_0040f440</span></strong><span>.</span><br>
+<span>It also calls </span><strong><span>FUN_00401000</span></strong><span> to read/write the picked string to the </span><strong><span>c.wncry</span></strong><span> file and print its content.</span></p><p><span>Then it calls FUN_00401064 to execute two commands - hide the directory and set permissions.</span></p><p><span>FUN_0040170a imports the following functions from kernel32.dll : CreateFile, WriteFile, ReadFile, MoveFile, MoveFileEx, DeleteFile, CloseHandle. It also calls FUN_00401a45, which loads the library advapi32.dll and imports the following functions: CryptAcquireContext, CryptImportKey, CryptDestroyKey, CryptEncrypt, CryptDecrypt, CryptGenKey.</span></p><p><span>The next part took me a lot of time, but it’s C code. FUN_004012fd is a class constructor, and FUN_0040137a is a deconstructor. FUN_00401437 is method (Figure 29).</span></p><center>
+<p><img src="https://i.imgur.com/vfQX7Xe.png" alt="" loading="lazy"><br>
+<span>Figure 29 - FUN_00401437</span></p>
+</center><p><span>The FUN_00401861 method is used to import a key from a file or use an embedded key. So FUN_00401437 is used to get the RSA key. The last two function calls the FUN_004014a6. The last two functions call the FUN_004014a6. So let’s delve into this (Figure 30).</span></p><center>
+<p><img src="https://i.imgur.com/zcgKKAX.png" alt="" loading="lazy"><br>
+<span>Figure 30 - FUN_004014a6</span></p>
+</center><p><span>It checks if the </span><strong><span>t.wnry</span></strong><span> file exists, and if so, determines its size. Then it checks if its first 8 bytes are equal to </span><strong><span>WANNACRY!</span></strong><span>. The next 4 bytes should be equal to 0x100. It keeps checking the file until FUN_004019e1 appears. it tried to decrypt 256 bytes using an RSA key and returned the decrypted data and its size.</span></p><p><span>FUN_00402a76 uses the decrypted data to initialize the AES key. Then it finishes reading the </span><strong><span>t.wnry</span></strong><span> file. And performs decryption for </span><strong><span>t.wnry</span></strong><span> using the FUN_00403a77 function.</span></p><p><span>It looks like the </span><strong><span>t.wnry</span></strong><span> file contains a part of the ransomware encrypted in it. I used a script from ghidraninja to extract it. The extracted file starts with a mutex, and then it gets the path to the tasksche.exe file (Figure 31).</span></p><center>
+<p><img src="https://i.imgur.com/6ZfVZqo.png" alt="" loading="lazy"><br>
+<span>Figure 31 - Extracted  dll. Part 1</span></p>
+</center><p><span>Then it imports the functions again and works with </span><strong><span>c.wnry</span></strong><span>, as we saw in the previous part (Figure 32).</span></p><center>
+<p><img src="https://i.imgur.com/oETtYAD.png" alt="" loading="lazy"><br>
+<span>Figure 32 - Extracted  dll. Part 2</span></p>
+</center><p><span>It creates three strings. Then it calls a function that checks if 00000000.pky and 00000000.dky exist. If so, they are used as keys. It checks them for decryption and encryption of the operation by comparing the result.</span></p><center>
+<p><img src="https://i.imgur.com/IBqILE5.png" alt="" loading="lazy"><br>
+<span>Figure 33 - Extracted  dll. Part 3</span></p>
+</center><p><span>After that, it starts 5 threads (Figure 34).</span></p><center>
+<p><img src="https://i.imgur.com/J6L3L0V.png" alt="" loading="lazy"><br>
+<span>Figure 34 - Extracted  dll. Part 4</span></p>
+</center><p><span>The first writes the current time every 25 seconds to the buffer, and then to a file (Figure 35).</span></p><center>
+<p><img src="https://i.imgur.com/KV9H9J3.png" alt="" loading="lazy"><br>
+<span>Figure 35 - The first thread</span></p>
+</center><p><span>The second thread checks the decryption file every 5 seconds (Figure 36).</span></p><center>
+<p><img src="https://i.imgur.com/6ZbVkub.png" alt="" loading="lazy"><br>
+<span>Figure 36 - The second thread</span></p>
+</center><p><span>The third one checks for a new drive every 5 seconds (Figure 37). If so, it will also encrypt using the ransomware thread (Figure 38).</span></p><center>
+<p><img src="https://i.imgur.com/lxfScjS.png" alt="" loading="lazy"><br>
+<span>Figure 37 - The third thread</span></p>
+<p><img src="https://i.imgur.com/pmj4h3o.png" alt="" loading="lazy"><br>
+<span>Figure 38 - Ransomware thread</span></p>
+</center><p><span>The ransomware thread starts with a cleanup thread, after which it checks the disk to see if there is enough space on it, if not, it will wait and check again. It also checks the drive type (it ignores the CD-ROM). It also contains a function that scans a folder - checks its contents, skips directories and malicious files, checks the file extension (Figure 39). It encrypts the following extensions:</span></p><pre><code>.docx	.ppam	.sti	.vcd	.3gp	.sch	.myd	.wb2
+.docb	.potx	.sldx	.jpeg	.mp4	.dch	.frm	.slk
+.docm	.potm	.sldm	.jpg	.mov	.dip	.odb	.dif
+.dot	.pst	.sldm	.bmp	.avi	.pl	.dbf	.stc
+.dotm	.ost	.vdi	.png	.asf	.vb	.db	.sxc
+.dotx	.msg	.vmdk	.gif	.mpeg	.vbs	.mdb	.ots
+.xls	.eml	.vmx	.raw	.vob	.ps1	.accdb	.ods
+.xlsm	.vsd	.aes	.tif	.wmv	.cmd	.sqlitedb	
+.xlsb	.vsdx	.ARC	.tiff	.fla	.js	.sqlite3	
+.xlw	.txt	.PAQ	.nef	.swf	.asm	.asc	.uot
+.xlt	.csv	.bz2	.psd	.wav	.h	.lay6	.stw
+.xlm	.rtf	.tbk	.ai	.mp3	.pas	.lay	.sxw
+.xlc	.123	.bak	.svg	.sh	.cpp	.mml	.ott
+.xltx	.wks	.tar	.djvu	.class	.c	.sxm	.odt
+.xltm	.wk1	.tgz	.m4u	.jar	.cs	.otg	.pem
+.ppt	.pdf	.gz	.m3u	.java	.suo	.odg	.p12
+.pptx	.dwg	.7z	.mid	.rb	.sln	.uop	.csr
+.pptm	.onetoc2	.rar	.wma	.asp	.ldf	.std	
+.pot	.snt	.zip	.flv	.php	.mdf	.sxd	.key
+.pps	.hwp	.backup	.3g2	.jsp	.ibd	.otp	.pfx
+.ppsm	.602	.iso	.mkv	.brd	.myi	.odp	.der
+.ppsx	.sxi    .max    .crt    .3ds
+</code></pre><center>
+<p><img src="https://i.imgur.com/gYUBRJL.png" alt="" loading="lazy"><br>
+<span>Figure 39 - Check the filetype</span></p>
+</center><p><span>If the file is suitable for malware, it adds it to the list structure. WannaCry also excludes some directories - \ \Intel, \WINDOWS, \ProgramData, \Program Files, \Program Files (x86), \AppData\Local\Temp and others (Figure 40).</span></p><center>
+<p><img src="https://i.imgur.com/Jld4teI.png" alt="" loading="lazy"><br>
+<span>Figure 40 - Excluded directories</span></p>
+</center><p><span>The found directories are also added to another list structure (Figure 41).</span></p><center>
+<p><img src="https://i.imgur.com/UlI8wRo.png" alt="" loading="lazy"><br>
+<span>Figure 41 - Call Exclude directory and add to the list</span></p>
+</center><p><span>Then, if the list of structures is not empty, it processes the file according to its type (Figure 42).</span></p><center>
+<p><img src="https://i.imgur.com/19T7hIo.png" alt="" loading="lazy"><br>
+<span>Figure 42 - Processing the file</span></p>
+</center><p><span>It can return an error (1) or 0, delete a temporary file, or encrypt (Figure 43).</span></p><center>
+<p><img src="https://i.imgur.com/RsRM8zK.png" alt="" loading="lazy"><br>
+<span>Figure 43 - Encryption</span></p>
+</center><p><span>It starts by checking the file and its path. If the file has not been encrypted (there are none .wnry version of it) it will launch the encryption method (Figures 44, 45, 46).</span></p><center>
+<p><img src="https://i.imgur.com/wOE9dMl.png" alt="" loading="lazy"><br>
+<span>Figure 44 - Encryption method. Part 1</span></p>
+</center><p><span>It tries to open a file (*createFileW) and get its size and creation time. It reads 8 bytes from the file to check if it contains </span><strong><span>WANACRY!</span></strong><span>. Then, it continues reading the file to check if it has already been encrypted and returns 1.</span></p><p><span>Otherwise, the file has not been encrypted yet. If the file type is 4 and it has not been encrypted, the file size is &lt; 100 GB. It generates a random number that must be a divisible by 100 without remainder, and uses the built-in RSA key to generate 16 bytes for the AES key (Figure 45).</span></p><center>
+<p><img src="https://i.imgur.com/4h5EjLA.png" alt="" loading="lazy"><br>
+<span>Figure 45 - Encryption method. Part 2</span></p>
+</center><p><span>The rest of the encryption method for type 4 (there is also a code for another type, but it just returns 1 or 0) is shown in Figure 46.</span></p><center>
+<p><img src="https://i.imgur.com/wfKBYQ9.png" alt="" loading="lazy"><br>
+<span>Figure 46 - Encryption method. Part 3</span></p>
+</center><p><span>It will encrypt the contents of the file using the generated key. Then it will fill the file with the contents of wannacry. It starts with the string </span><strong><span>WANNACRY!</span></strong><span>, key length, encrypted key length, file type, file size, and encrypted content.</span></p><p><span>Also, this file contains a decryption function, but it is similar to the encryption part, so I just skipped it.</span></p><p><span>Now let’s get back to the threads. We finished with the third one. Figure 47 shows the fourth stream.</span></p><center>
+<p><img src="https://i.imgur.com/OXZ8Cnl.png" alt="" loading="lazy"><br>
+<span>Figure 47 - The fourth stream</span></p>
+</center><p><span>It just runs the taskdl.exe file. I also decompiled this file. It also works with files, but it seems to delete encrypted files (extension .WNCRY) during the decryption process. This might make sense because the next thread runs wanadecryptor (Figures 48 and 49).</span></p><center>
+<p><img src="https://i.imgur.com/amYMx1b.png" alt="" loading="lazy"><br>
+<span>Figure 48 - The fifth thread</span></p>
+<p><img src="https://i.imgur.com/qOo8wDq.png" alt="" loading="lazy"><br>
+<span>Figure 49 - The fifth thread function</span></p>
+</center><p><span>It gets the current time and writes it to </span><strong><span>c.wnry</span></strong><span> as a timer. It then calls a function to run </span><strong><span>wanadecryptor</span></strong><span>. And finally checks if tasksche.exe added to autorun c, if not, it will add it. Let’s move on to the function (Figure 50).</span></p><center>
+<p><img src="https://i.imgur.com/MYXdGO7.png" alt="" loading="lazy"><br>
+<span>Figure 50 - Start wanadecryptor</span></p>
+</center><p><span>It calls the function to check if it running as SECURITY_NT_AUTHORITY. Then it got the full path to the @WanaDecryptor@.exe, which is u.wnry file. And start the process with </span><strong><span>taskse.exe</span></strong><span> file (Figure 51). At the end it runs @WanaDecryptor@.exe as a process.</span></p><center>
+<p><img src="https://i.imgur.com/4MiDA7b.png" alt="" loading="lazy"><br>
+<span>Figure 51 - taskse.exe</span></p>
+</center><p><span>It looks like this executable is trying to list active RDP sessions on</span><br>
+<span>connected remote machines. After starting all threads, it calls a function to terminate all processes related to MS Exchange and MySQL (Figure 52).</span></p><center>
+<p><img src="https://i.imgur.com/K6DoFRW.png" alt="" loading="lazy"><br>
+<span>Figure 52 - Kill processes</span></p>
+</center><p><span>Now let’s take a look at u.wnry, which is called wannadecryptor. This executable file is responsible for connecting to the attacker and provides a communication channel for this. It is listening on the localhost:9050, as shown in Figure 53.</span></p><center>
+<p><img src="https://i.imgur.com/ym3roSF.png" alt="" loading="lazy"><br>
+<span>Figure 53 - Listen to 0x235a = 9050</span></p>
+</center><p><span>It extract files from s.wnry. And then copies TaskData\Tor\tor.exe to TaskData\Tor\taskhsvc.exe and executes it.</span></p><center>
+<p><img src="https://i.imgur.com/plQBjb8.png" alt="" loading="lazy"><br>
+<span>Figure 54 - Tor</span></p>
+</center><p><span>To connect, it uses the addresses from the c.wnry file (Figure 55).</span></p><center>
+<p><img src="https://i.imgur.com/miHLZe2.png" alt="" loading="lazy"><br>
+<span>Figure 55 - Read c.wnry</span></p>
+</center><p><span>It also runs the following command “/c vssadmin delete shadows /all /quiet &amp; wmic shadowcopy delete &amp; bcdedit /set {default} bootstatuspolicy ignoreallfailures &amp; bcdedit /set {default} recoveryenabled no &amp; wbadmin delete catalog -quiet” (Figure 56)</span></p><center>
+<p><img src="https://i.imgur.com/X3jQXIG.png" alt="" loading="lazy"><br>
+<span>Figure 56 - Run cmd</span></p>
+</center><p><span>Then it shows the graphical interface of the ransomware program (Figure 57).</span></p><center>
+<p><img src="https://i.imgur.com/Gvb7mjy.png" alt="" loading="lazy"><br>
+<span>Figure 57 - Show GUI</span></p>
+</center><p><span>It also has many functions related to the graphical interface. For example, Figure 58 shows the function for the decryption window of the GUI.</span></p><center>
+<p><img src="https://i.imgur.com/VJSgyIq.png" alt="" loading="lazy"><br>
+<span>Figure 58 - One of the GUI function</span></p>
+</center><p><span>In this part, I noticed that it also opens some files like 00000000.res. I think he probably uses domains .onion as a C&amp;C for communication, but I haven’t found any specific functions that would send him something.</span></p><p><span>Well, I didn’t expect this to turn into matryoshka hell. Now let’s put wannacry in any.run sandbox.</span></p><div class="alert alert-success">
+<ol start="2">
+<li><span>Now try to use other online tools (for example, any.run, hybrid analysis, …), upload the malware and see what artifact it detects.</span></li>
+</ol>
+</div><p><span>Figure 59 shows the process graph.</span></p><center>
+<p><img src="https://i.imgur.com/4WsbnIo.png" alt="" loading="lazy"><br>
+<span>Figure 59 - Process graph</span></p>
+</center><p><span>Part of the processes is used to obtain necessary information about the system (Figure 60, 61).</span></p><center>
+<p><img src="https://i.imgur.com/EaIcSl8.png" alt="" loading="lazy"><br>
+<span>Figure 60 - Obtain information</span></p>
+<p><img src="https://i.imgur.com/R3pDW0c.png" alt="" loading="lazy"><br>
+<span>Figure 61 - Obtain information</span></p>
+</center><p><span>taskdll.exe - one of the modules of WannaCry. It deletes files with the .WNCRY extension (Figure 62).</span></p><center>
+<p><img src="https://i.imgur.com/Qo6NoRB.png" alt="" loading="lazy"><br>
+<span>Figure 62 - taskdll.exe</span></p>
+</center><p><span>It set the name “SQL Client Configuration Utility” for itself.</span></p><p><span>I haven’t seen any cscipts in the code, but it’s only creating a symbolic link to @WanaDecryptor@.exe. Also cmd.exe used to add a new registry key (Figure 63).</span></p><center>
+<p><img src="https://i.imgur.com/LXU0cxH.png" alt="" loading="lazy"><br>
+<span>Figure 63 - CMD created registry key</span></p>
+</center><p><span>@WanaDecryptor@.exe is used to extract (Figure 64) and start Tor (Figure 65).</span></p><center>
+<p><img src="https://i.imgur.com/Ny2SSc5.png" alt="" loading="lazy"><br>
+<span>Figure 64 - Extract Tor</span></p>
+<p><img src="https://i.imgur.com/Up8ovmb.png" alt="" loading="lazy"><br>
+<span>Figure 65 - Start Tor (as taskhsvc.exe)</span></p>
+</center><p><span>Also WannaCry uses cmd.exe to execute commands from @WanaDecryptor@.exe:</span></p><ul>
+<li><span>vssadmin.exe - delete shadows/all/quiet</span></li>
+<li><span>wmic - shadowcopy delete</span></li>
+<li><span>bcedit - /set {default} bootstatuspolicy ignoreallfailures</span></li>
+<li><span>wbadmin - delete catalog -quiet</span></li>
+<li><span>bcdedit - /set {default} recoveryenabled no</span></li>
+</ul><p><span>Figure 66 shows the connections.</span></p><center>
+<p><img src="https://i.imgur.com/iusvOsz.png" alt="" loading="lazy"><br>
+<span>Figure 66 - Connections</span></p>
+</center><p><span>Figure 67 shows the changed background image.</span></p><center>
+<p><img src="https://i.imgur.com/qhgLJR7.png" alt="" loading="lazy"><br>
+<span>Figure 67 - Changed background image</span></p>
+</center><p><span>Figure 68 shows the GUI of ransomware.</span></p><center>
+<p><img src="https://i.imgur.com/yjjqBYs.png" alt="" loading="lazy"><br>
+<span>Figure 68 - GUI</span></p>
+</center><p><span>Figure 69 shows the malicious behavior activities.</span></p><center>
+<p><img src="https://i.imgur.com/rZieZmL.png" alt="" loading="lazy"><br>
+<span>Figure 69 - Malicious behavior activities</span></p>
+</center><p><span>Suspicious behavior activities includes following:</span></p><pre><code class="txt hljs"><span class="hljs-attribute">Uses</span> ICACLS.EXE to modify access control list;
+<span class="hljs-attribute">Uses</span> ATTRIB.EXE to modify file attributes;
+<span class="hljs-attribute">Reads</span> the computer name;
+<span class="hljs-attribute">Executable</span> content was dropped or overwritten;
+<span class="hljs-attribute">Checks</span> supported languages;
+<span class="hljs-attribute">Creates</span> files like Ransomware instruction;
+<span class="hljs-attribute">Creates</span> files in the program directory;
+<span class="hljs-attribute">Drops</span> a file with a compile date too recent;
+<span class="hljs-attribute">Starts</span> CMD.EXE for commands execution;
+<span class="hljs-attribute">Executes</span> scripts;
+<span class="hljs-attribute">Creates</span> files in the user directory;
+<span class="hljs-attribute">Creates</span> files in the Windows directory;
+<span class="hljs-attribute">Executed</span> as Windows Service;
+<span class="hljs-attribute">Executed</span> via COM;
+<span class="hljs-attribute">Uses</span> REG.EXE to modify Windows registry.
+</code></pre><div class="alert alert-success">
+<ol start="3">
+<li><span>Compare the findings of both methods, and see if there are some artifacts that online tools did not manage to find, or vice versa. For example, a piece of code or information that helps you in your analysis.</span></li>
+</ol>
+</div><p><span>Well, both methods can provide information about what the malware is doing. Static analysis gives me more detailed information - about the encryption process and the key (RSA and AES-128), excluded directories, the contents of the encrypted file, the list of extensions, etc.</span></p><div class="alert alert-success">
+<ol start="4">
+<li><span>Try to describe which method is better (Sandboxing V.S. Static analysis) is better, and which one is more useful in which case.</span></li>
+</ol>
+</div><p><span>It depends. The Static analysis can provide much more information about the operation of the application, but it also takes a lot of time. The sandbox can provide enough information to make a conclusion about the overall operation of the application. so I think both of these methods should be used together. The sandbox is like a first look at an application to get information about what this malware is doing, and then examine the code to get more detailed information about its operation.</span></p><h2 id="Task-4---Mapping-to-ATTampCK-mitre-framework" data-id="Task-4---Mapping-to-ATTampCK-mitre-framework"><a class="anchor hidden-xs" href="#Task-4---Mapping-to-ATTampCK-mitre-framework" title="Task-4---Mapping-to-ATTampCK-mitre-framework"><span class="octicon octicon-link"></span></a><span>Task 4 - Mapping to ATT&amp;CK mitre framework</span></h2><p><span>According to my analysis, I created the following ATT&amp;CK MITRE matrix (Figure 70).</span></p><center>
+<p><img src="https://i.imgur.com/gBuLkMQ.png" alt="" loading="lazy"><br>
+<span>Figure 70 - My matrix</span></p>
+</center><p><span>Also any.run give me the following matrix (Figure 71).</span></p><center>
+<p><img src="https://i.imgur.com/yDNMkTg.png" alt="" loading="lazy"><br>
+<span>Figure 71 - ATT&amp;CK mitre for 1831 resource (WannaCry without killswitch)</span></p>
+</center><h2 id="References" data-id="References"><a class="anchor hidden-xs" href="#References" title="References"><span class="octicon octicon-link"></span></a><span>References</span></h2><ol>
+<li><a href="https://www.mandiant.com/resources/flare-vm-update" target="_blank" rel="noopener"><span>Flare VM installation</span></a></li>
+<li><a href="https://github.com/mandiant/flare-vm" target="_blank" rel="noopener"><span>Flare VM GitHub</span></a></li>
+<li><a href="https://github.com/ytisf/theZoo/tree/master/malware/Binaries/Ransomware.WannaCry" target="_blank" rel="noopener"><span>WannaCry</span></a></li>
+<li><a href="https://www.malwaretech.com/2017/05/how-to-accidentally-stop-a-global-cyber-attacks.html" target="_blank" rel="noopener"><span>How to Accidentally Stop a Global Cyber Attacks</span></a></li>
+<li><a href="https://medium.com/@yogeshojha/reverse-engineering-wannacry-ransomware-using-ghidra-finding-the-killswitch-a212807e9354" target="_blank" rel="noopener"><span>Reverse Engineering WannaCry Ransomware using Ghidra — Finding the KillSwitch</span></a></li>
+<li><a href="https://github.com/ghidraninja/ReversingWannacry" target="_blank" rel="noopener"><span>Scripts</span></a></li>
+<li><a href="https://app.any.run/tasks/083611d8-a98c-4fdd-982c-71a111d62669?_gl=1*rd3294*_ga*MTU3ODIyNjgwLjE2NDQzNDM1NjQ.*_ga_53KB74YDZR*MTY1MDkyNzgzNy4zLjEuMTY1MDkzMjE3Ni41OA..&amp;_ga=2.172709027.1811007633.1650927839-157822680.1644343564" target="_blank" rel="noopener"><span>any.run</span></a></li>
+</ol></div>
+    <div class="ui-toc dropup unselectable hidden-print" style="display:none;">
+        <div class="pull-right dropdown">
+            <a id="tocLabel" class="ui-toc-label btn btn-default" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" title="Table of content">
+                <i class="fa fa-bars"></i>
+            </a>
+            <ul id="ui-toc" class="ui-toc-dropdown dropdown-menu" aria-labelledby="tocLabel">
+                <div class="toc"><ul class="nav">
+<li class="invisable-node"><ul class="nav">
+<li><a href="#Task-1---Set-up-your-environment" title="Task 1 - Set up your environment">Task 1 - Set up your environment</a></li>
+<li><a href="#Task-2---Let’s-get-some-malware" title="Task 2 - Let’s get some malware">Task 2 - Let’s get some malware</a></li>
+<li><a href="#Task-3---Static-Analysis" title="Task 3 - Static Analysis">Task 3 - Static Analysis</a><ul class="nav">
+<li><a href="#WannaCry" title="WannaCry">WannaCry</a></li>
+</ul>
+</li>
+<li><a href="#Task-4---Mapping-to-ATTampCK-mitre-framework" title="Task 4 - Mapping to ATT&amp;CK mitre framework">Task 4 - Mapping to ATT&amp;CK mitre framework</a></li>
+<li><a href="#References" title="References">References</a></li>
+</ul>
+</li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
+            </ul>
+        </div>
+    </div>
+    <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print" data-spy="affix" style="top:17px;display:none;" null null>
+        <div class="toc"><ul class="nav">
+<li class="invisable-node"><ul class="nav">
+<li><a href="#Task-1---Set-up-your-environment" title="Task 1 - Set up your environment">Task 1 - Set up your environment</a></li>
+<li><a href="#Task-2---Let’s-get-some-malware" title="Task 2 - Let’s get some malware">Task 2 - Let’s get some malware</a></li>
+<li><a href="#Task-3---Static-Analysis" title="Task 3 - Static Analysis">Task 3 - Static Analysis</a><ul class="nav">
+<li><a href="#WannaCry" title="WannaCry">WannaCry</a></li>
+</ul>
+</li>
+<li><a href="#Task-4---Mapping-to-ATTampCK-mitre-framework" title="Task 4 - Mapping to ATT&amp;CK mitre framework">Task 4 - Mapping to ATT&amp;CK mitre framework</a></li>
+<li><a href="#References" title="References">References</a></li>
+</ul>
+</li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.6.0/gist-embed.min.js" integrity="sha256-KyF2D6xPIJUW5sUDSs93vWyZm+1RzIpKCexxElmxl8g=" crossorigin="anonymous" defer></script>
+    <script>
+        var markdown = $(".markdown-body");
+        //smooth all hash trigger scrolling
+        function smoothHashScroll() {
+            var hashElements = $("a[href^='#']").toArray();
+            for (var i = 0; i < hashElements.length; i++) {
+                var element = hashElements[i];
+                var $element = $(element);
+                var hash = element.hash;
+                if (hash) {
+                    $element.on('click', function (e) {
+                        // store hash
+                        var hash = this.hash;
+                        if ($(hash).length <= 0) return;
+                        // prevent default anchor click behavior
+                        e.preventDefault();
+                        // animate
+                        $('body, html').stop(true, true).animate({
+                            scrollTop: $(hash).offset().top
+                        }, 100, "linear", function () {
+                            // when done, add hash to url
+                            // (default click behaviour)
+                            window.location.hash = hash;
+                        });
+                    });
+                }
+            }
+        }
+
+        smoothHashScroll();
+        var toc = $('.ui-toc');
+        var tocAffix = $('.ui-affix-toc');
+        var tocDropdown = $('.ui-toc-dropdown');
+        //toc
+        tocDropdown.click(function (e) {
+            e.stopPropagation();
+        });
+
+        var enoughForAffixToc = true;
+
+        function generateScrollspy() {
+            $(document.body).scrollspy({
+                target: ''
+            });
+            $(document.body).scrollspy('refresh');
+            if (enoughForAffixToc) {
+                toc.hide();
+                tocAffix.show();
+            } else {
+                tocAffix.hide();
+                toc.show();
+            }
+            $(document.body).scroll();
+        }
+
+        function windowResize() {
+            //toc right
+            var paddingRight = parseFloat(markdown.css('padding-right'));
+            var right = ($(window).width() - (markdown.offset().left + markdown.outerWidth() - paddingRight));
+            toc.css('right', right + 'px');
+            //affix toc left
+            var newbool;
+            var rightMargin = (markdown.parent().outerWidth() - markdown.outerWidth()) / 2;
+            //for ipad or wider device
+            if (rightMargin >= 133) {
+                newbool = true;
+                var affixLeftMargin = (tocAffix.outerWidth() - tocAffix.width()) / 2;
+                var left = markdown.offset().left + markdown.outerWidth() - affixLeftMargin;
+                tocAffix.css('left', left + 'px');
+            } else {
+                newbool = false;
+            }
+            if (newbool != enoughForAffixToc) {
+                enoughForAffixToc = newbool;
+                generateScrollspy();
+            }
+        }
+        $(window).resize(function () {
+            windowResize();
+        });
+        $(document).ready(function () {
+            windowResize();
+            generateScrollspy();
+        });
+
+        //remove hash
+        function removeHash() {
+            window.location.hash = '';
+        }
+
+        var backtotop = $('.back-to-top');
+        var gotobottom = $('.go-to-bottom');
+
+        backtotop.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToTop)
+                scrollToTop();
+            removeHash();
+        });
+        gotobottom.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToBottom)
+                scrollToBottom();
+            removeHash();
+        });
+
+        var toggle = $('.expand-toggle');
+        var tocExpand = false;
+
+        checkExpandToggle();
+        toggle.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            tocExpand = !tocExpand;
+            checkExpandToggle();
+        })
+
+        function checkExpandToggle () {
+            var toc = $('.ui-toc-dropdown .toc');
+            var toggle = $('.expand-toggle');
+            if (!tocExpand) {
+                toc.removeClass('expand');
+                toggle.text('Expand all');
+            } else {
+                toc.addClass('expand');
+                toggle.text('Collapse all');
+            }
+        }
+
+        function scrollToTop() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: 0
+            }, 100, "linear");
+        }
+
+        function scrollToBottom() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: $(document.body)[0].scrollHeight
+            }, 100, "linear");
+        }
+    </script>
+</body>
+
+</html>
